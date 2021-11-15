@@ -1,38 +1,127 @@
 .App {
   text-align: center;
+  direction: rtl;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.productPage
+{
+  margin: 20px auto !important;
+  width: max-content;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.header-grid>*
+{
+ font-size: 15px;
+ font-weight: bold;
+ color: rgb(10, 10, 97);
+ padding: 20px;
+ width: max-content;
+}
+.productPage img
+{
+ width: 100px;
+ height: 80px;
+ margin: 10px auto;
+}
+.productPage input{
+  width: 40px;
+}
+.image-column
+{
+  background-color: rgb(10, 10, 97);
+  width: 120px !important;
+  height: 100px !important;
+  padding: 0 !important;
+
+}
+.Header
+{
+  background-color:rgb(10, 10, 97);
+  width: 100vw;
+  height: 80px;
+
+}
+.Header img{
+  width: 100px;
+  height: 40px;
+  position: absolute;
+
+}
+.Header p{
+  margin: auto;
+  width: max-content;
+  font-size: 40px;
+  font-weight: bold;
+  color: rgb(101 171 243);
+ text-shadow: 2px 2px  white;
+}
+.total
+{
+  background-color: #0a0a61;
+  color: aliceblue;
+  width: max-content;
+  margin: 0 auto;
+
+}
+.total td
+{
+  border:aliceblue 2px solid;
+}
+.send 
+{
+  border: rgb(10, 10, 97) 2px solid;
+  background-color: rgb(118, 223, 255);
+  border-radius: 12px;
+  color: rgb(10, 10, 97);
+}
+.taple-pdf
+{
+  width:794px;
+  margin: 0 auto;
+}
+table td,table th
+{
+  border: rgb(10, 10, 97) 2px solid;
+}
+
+@media only screen and (max-width:800px) {
+  h1
+  {
+    width: max-content;
+    margin: 0 40vw;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  table>*
+  {
+    padding: 0 ;
+    margin: 0;
   }
-  to {
-    transform: rotate(360deg);
+  table tr {
+  width: 100vw !important;
   }
+  table img,.productPage img,.image-column
+  {
+   width: 16vw !important;
+   height: 12vw !important;
+  }
+  thead th ,tbody td
+  {
+    width: 16vw !important;
+  }
+
+.total
+{
+  width: max-content;
+  margin: 0 15vw;
+}
+
+.header-grid>*
+{
+ font-size: 15px;
+ font-weight: bold;
+ color: rgb(10, 10, 97);
+ padding: 0;
+ width: 15vw;
+}
+
+
 }
