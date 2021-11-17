@@ -52,8 +52,17 @@
   width: max-content;
   font-size: 40px;
   font-weight: bold;
-  color: rgb(101 171 243);
+  color: rgb(22, 155, 195);
  text-shadow: 2px 2px  white;
+}
+.p-table{
+  font-weight: bold;
+  color: rgb(142, 204, 223);
+}
+p
+{
+  font-weight: bold;
+  color: #0a0a61;
 }
 .total
 {
@@ -70,9 +79,11 @@
 .send 
 {
   border: rgb(10, 10, 97) 2px solid;
-  background-color: rgb(118, 223, 255);
+  background-color: white;
   border-radius: 12px;
-  color: rgb(10, 10, 97);
+  color: rgb(5, 156, 202);
+  font-size: 15px;
+  font-weight: bold;
 }
 .taple-pdf
 {
@@ -83,12 +94,20 @@ table td,table th
 {
   border: rgb(10, 10, 97) 2px solid;
 }
+.error
+{
+  width: max-content;
+  height: max-content;
+  margin: 20px auto;
+  background-color: rgb(255, 226, 238);
+  color: rgb(190, 18, 18);
+}
 
 @media only screen and (max-width:800px) {
   h1
   {
     width: max-content;
-    margin: 0 40vw;
+    margin: 0 -1vw;
   }
   table>*
   {
@@ -124,4 +143,14 @@ table td,table th
 }
 
 
+}
+@media only screen and (max-width:420px) {
+  table>*
+  {
+    font-size: 12px !important;
+  }
+  .Header p
+  {
+    margin-top:25px;
+  }
 }
