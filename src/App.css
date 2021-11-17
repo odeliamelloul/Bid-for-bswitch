@@ -153,4 +153,11 @@ table td,table th
   {
     margin-top:25px;
   }
+  .taple-pdf
+  {
+    width: max-content;
+    margin: 0 auto;
+    margin-top: 20px;
+    color: rgb(10, 10, 97);
+  }
 }

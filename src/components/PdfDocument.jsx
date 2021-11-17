@@ -195,9 +195,9 @@ function PdfDocument() {
          {errPhone!=="" &&<li>{errPhone}</li>}
        </ul>
      </div>
-    </div>}
+    
    <button className="send" onClick={sendEmail} >שלח אלינו את ההצעה <i class="fa fa-envelope-o"  aria-hidden="true"></i> </button>
-   
+   </div>}
     </>
   );
 }
