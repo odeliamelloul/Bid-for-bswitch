@@ -8,11 +8,10 @@ function PdfDocument() {
   const [errName, setErrName] = useState("")
   const [email, setEmail] = useState("")
   const [errMail, setErrMail] = useState("")
+  const [flag, setFlag] = useState(false)
   const [phone, setPhone] = useState("")
   const [errPhone,setErrPhone]=useState("")
-  const [err,setErr]=useState("")
-  
-  let flag=false
+
   const ref = useRef()
   const lsproducts=JSON.parse(localStorage.getItem("allProducts"))
   const markedsProduct=lsproducts?lsproducts.filter((el)=>el.amount>0):[]
@@ -49,18 +48,15 @@ function PdfDocument() {
 
     const sendEmail=()=>
     {
-     changeName()
-     changeEmail()
-     changePhone()
+     if(name==="")
+     setErrName("הכנס שם")
+     if(email==="")
+     setErrMail("הכנס מייל ")
+      if(phone==="")
+      setErrPhone("הכנס מספר טלפון ")
 
-     if(errMail===""&& errName==="" && errPhone==="" && flag===false){
-      setErr("הכנס פרטיך")
-     }
-     if(errMail===""&& errName==="" && errPhone==="" && flag===true){
-       setName("")
-       setEmail("")
-       setPhone("")
-      var templateParams = {
+     if(errMail===""&& errName==="" && errPhone==="" && flag){
+       var templateParams = {
           name:html
       };
     
@@ -74,86 +70,89 @@ function PdfDocument() {
       }
      }
         const changeName=(val)=>
-        {setErr("")
+        {
            setName(val)
            if (val==="")
-           { flag=false
+           { setFlag(false)
              setErrName("הכנס שם")
            }
            else{
-              flag=true
+              setFlag(true)
               setErrName("")
              }
         }
         const changeEmail=(val)=>
-        { setErr("")
+        { 
            setEmail(val)
-           if(!/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(email))
+           if(!/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(val))
            {
-            flag=false
+            setFlag(false)
              setErrMail("הכנס מייל תקין")
            }
            else{
-            flag=true 
+            setFlag(true) 
             setErrMail("")
           }
 
         }
         const changePhone=(val)=>
         {
+          console.log(val)
            setPhone(val)
-           setErr("")
-           if(!/^(\+972|0)[5][0|2|3|4|5|8|9]{1}[-]{0,1}[0-9]{7}$/.test(phone)
-             || !/^0\d([\d]{0,1})([-]{0,1})\d{7}$/.test(phone))
-           { flag=false
+           
+           if(!/^[0][5]\d{1}\-?\d{7}$/.test(val))
+           { 
+             setFlag(false)
              setErrPhone("הכנס מספר טלפון תקין")
            } 
            else{
+            setFlag(true)
             setErrPhone("")
            }
         }
 
   return (
     <>
-    { markedsProduct.length>0 &&<div>
-      
+    {markedsProduct.length>0 &&
+   <div>
     <div className="taple-pdf" ref={ref}>
       <h1>סיכום</h1>
-      <table >           
-         <thead>
-           <tr>
-           <th>מוצר</th>
-           <th>&nbsp;תיאור&nbsp;המוצר</th>
-           <th>כמות</th>
-           <th>מחיר &nbsp;ליחידה &nbsp;לפני&nbsp; מע"מ</th>
-           <th>סה"כ &nbsp;לפני&nbsp; מע"מ </th>
-           <th> סה"כ&nbsp; מחיר כולל&nbsp; מע"מ</th>
-           </tr>
-         </thead><tbody>
-       {markedsProduct.map((el)=>
-        (
-           <tr>
-             <td><img src={el.exImage} width="100px" height="80px" alt="" /></td>
-             <td>{el.description}</td> 
-             <td>{el.amount}</td>     
-             <td>{el.price}</td>
-             <td>{(el.price *el.amount).toFixed(2)}</td>       
-             <td>{(el.price *1.17).toFixed(2)}</td>
-           </tr>
-        )
-       )}
-       </tbody>
-       </table>
+      <table>
+    <tr className="header-grid">
+        <th> תיאור המוצר </th>
+        <th>כמות</th>
+        <th>מחיר ליחידה</th>
+        <th>סה"כ לפני מע"מ </th>
+        <th> סה"כ כולל מע"מ</th>
+        {/* <div className="col">אביזר פנימי</div> */}
+    </tr>
+
+
+    {markedsProduct.map((product,index)=>
+    <tr> 
+        <td className="productDetails"><img src={product.exImage} alt="" />
+        <div className="productName">{product.description}</div> 
+        </td>
+        <td>{product.amount}</td>
+        <td>
+            {product.price}
+        </td>
+        <td>
+        {(product.price * product.amount).toFixed(2)}
+        </td>
+        <td>
+        {(product.price * product.amount *1.17).toFixed(2)}
+        </td>
+    </tr> )}  
+    </table>
        <table className="total">
         <tr>
-            <td >סה"כ&nbsp;לפני&nbsp;מע"מ </td>
-            <td >
+            <td >סה"כ&nbsp;לפני&nbsp;מע"מ : &nbsp;
               {(markedsProduct.map((item)=>item.price*item.amount).reduce((prev,next)=>prev+next,0)).toFixed(2)}
             </td>
         </tr>
         <tr>
-            <td >  סה"כ &nbsp;אחרי&nbsp;מע"מ  </td>
-            <td >
+            <td >  סה"כ &nbsp;אחרי&nbsp;מע"מ :&nbsp; 
             {((markedsProduct.map((item)=>item.price*item.amount).reduce((prev,next)=>prev+next,0))*1.17).toFixed(2)}
             </td>
         </tr>
@@ -161,13 +160,7 @@ function PdfDocument() {
             <p className="p-table">*המחיר אינו סופי ויכול להשתנות לפי תנאי&nbsp; השטח  </p>
         </tr>
       </table>
-         <table>
-            <tbody>
-              <tr>
-                
-              </tr>
-            </tbody>
-         </table>
+ 
        </div>
 
        <ReactToPdf targetRef={ref} filename="estimate-bswitch.pdf">
@@ -187,14 +180,11 @@ function PdfDocument() {
           <input type="phone" value={phone} onChange={(e)=>changePhone(e.target.value)} placeholder="טלפון" class="form-control-sm" id="InputPhone"/>
         </div>
      </form>
-     <div className="error">
-       <ul >
-         {err!=="" && <li>{err}</li>}
-         {errName!=="" &&<li>{errName}</li>}
-         {errMail!==""&&<li>{errMail}</li>}
-         {errPhone!=="" &&<li>{errPhone}</li>}
-       </ul>
-     </div>
+     {!flag && <div className="error">
+         {errName}
+         {errMail}
+         {errPhone}
+     </div>}
     
    <button className="send" onClick={sendEmail} >שלח אלינו את ההצעה <i class="fa fa-envelope-o"  aria-hidden="true"></i> </button>
    </div>}

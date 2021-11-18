@@ -17,18 +17,18 @@
  padding: 20px;
  width: max-content;
 }
-.productPage img
+.productDetails img
 {
  width: 100px;
  height: 80px;
  margin: 10px auto;
+ border: #0a0a61 2px solid;
 }
 .productPage input{
   width: 40px;
 }
 .image-column
 {
-  background-color: rgb(10, 10, 97);
   width: 120px !important;
   height: 100px !important;
   padding: 0 !important;
@@ -62,7 +62,7 @@
 p
 {
   font-weight: bold;
-  color: #0a0a61;
+  color: #0a5061;
 }
 .total
 {
@@ -85,13 +85,28 @@ p
   font-size: 15px;
   font-weight: bold;
 }
+.add,.remove{ 
+  border: rgb(10, 10, 97) 2px solid;
+  background-color:rgb(123, 210, 236);
+  color: #0a0a61;
+  margin:2px;
+  font-size: 15px;
+  font-weight: bold;
+}
 .taple-pdf
 {
-  width:794px;
+  width:max-content;
   margin: 0 auto;
+}
+
+.taple-pdf h1
+{
+ width: 100px;
+ margin: 5px auto;
 }
 table td,table th
 {
+  font-weight: 500;
   border: rgb(10, 10, 97) 2px solid;
 }
 .error
@@ -100,9 +115,22 @@ table td,table th
   height: max-content;
   margin: 20px auto;
   background-color: rgb(255, 226, 238);
+  text-align: justify;
+  padding: 5px;  
   color: rgb(190, 18, 18);
+  font-size: 13px;
 }
-
+.productDetails
+{
+  width: 100px !important;
+  background-color: #08083b;
+}
+.productName
+{
+  color: aliceblue;
+  font-weight: 500;
+  margin: 0 auto;
+}
 @media only screen and (max-width:800px) {
   h1
   {
@@ -119,30 +147,47 @@ table td,table th
   }
   table img,.productPage img,.image-column
   {
-   width: 16vw !important;
-   height: 12vw !important;
+   width:18vw !important;
+   height: 18vw !important;
   }
   thead th ,tbody td
   {
     width: 16vw !important;
   }
 
-.total
-{
-  width: max-content;
-  margin: 0 15vw;
-}
+  .total
+  {
+    width: max-content;
+  }
 
-.header-grid>*
-{
- font-size: 15px;
- font-weight: bold;
- color: rgb(10, 10, 97);
- padding: 0;
- width: 15vw;
-}
+  .header-grid>*
+  {
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(10, 10, 97);
+  padding: 0;
+  width: 15vw;
+  }
 
-
+  .productPage input{
+     display: inline-block;
+     width:13vw;
+    }
+  
+    .add,.remove{
+      width: 32px;
+      font-size: 15px;
+       margin: 0;
+    }
+    .add{
+      border-top-left-radius: 50%;
+      border-top-right-radius: 50%;
+    }
+    .remove
+    {
+      border-bottom-left-radius: 50%;
+      border-bottom-right-radius: 50%;
+    }
 }
 @media only screen and (max-width:420px) {
   table>*
@@ -160,4 +205,32 @@ table td,table th
     margin-top: 20px;
     color: rgb(10, 10, 97);
   }
+  thead th ,tbody td
+  {
+    width: 10vw !important;
+  }
+
+
+
+.taple-pdf table
+{
+  width: max-content;
+  margin: 5vw;
 }
+.taple-pdf h1
+{
+ width: 100px;
+ margin: 5px 33vw;
+}
+
+table img,.productPage img,.image-column
+{
+ width:24vw !important;
+ height:18vw !important;
+}
+.total td
+{
+  width:max-content ;
+}
+}
+

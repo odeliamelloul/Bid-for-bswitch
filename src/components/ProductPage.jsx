@@ -6,11 +6,11 @@ import PdfDocument from './PdfDocument'
 const ProductPage = () => {
 
     let lsProducts=localStorage.getItem("allProducts")?JSON.parse(localStorage.getItem("allProducts")):allProducts
-
+    let searchProduct =[]
     const itemEls = useRef([])
     itemEls.current=[]
     const [updatedProducts, setupdatedProducts] = useState([])
-
+    const [keyWord, setKeyWord] = useState("")
     const addToRef=(el)=>
     {
       if(el && !itemEls.current.includes(el) )
@@ -31,10 +31,33 @@ const ProductPage = () => {
 
     },[] )
 
+const addOne=(id)=>
+{
+    lsProducts.forEach(el =>{
+        if(el.id===id)
+        {
+            el.amount=Number(el.amount+1)
+            itemEls.current[id].value=el.amount
+        }
+    });
+    localStorage.setItem("allProducts",JSON.stringify(lsProducts))
+    setupdatedProducts(lsProducts)
+}
+
+const removeOne=(id)=>{
+    lsProducts.forEach(el =>{
+        if(el.id===id)
+        {
+            el.amount=Number(el.amount-1)
+            itemEls.current[id].value=el.amount
+        }
+    });
+    localStorage.setItem("allProducts",JSON.stringify(lsProducts))
+    setupdatedProducts(lsProducts)
+}
 
 const changeAmount=(e,id)=>
 {
-    console.log(e.target.value);
     lsProducts.forEach(el =>{
         if(el.id===id)
         {
@@ -45,15 +68,29 @@ const changeAmount=(e,id)=>
     localStorage.setItem("allProducts",JSON.stringify(lsProducts))
     setupdatedProducts(lsProducts)
 }
-var name =allProducts.map((el)=>el.description)
+const submitHandler=(val)=>
+{
+    lsProducts.forEach(el =>{
+        if((el.description+" ").includes(val))
+        {
+            searchProduct.push(el)
+            console.log(searchProduct)
+        }
+    });
+    setupdatedProducts(searchProduct)
+}
 return (
 <>
- <Header/>
-<div className=" productPage" >
-    <table>
+<Header/>
+
+ <input  onChange={(e)=>submitHandler(e.target.value)}  className="form-control-sm m-2" type="Search"  placeholder="חיפוש" aria-label="Search"/>
+
+ <div className=" productPage" >
+   {updatedProducts.length===0? 
+   <p>לא נמצא מוצר תואם לחיפושך</p>
+   : <table>
     <tr className="header-grid">
-        <th>אביזר חיצוני</th>
-        <th>תיאור המוצר</th>
+        <th> תיאור המוצר </th>
         <th>כמות</th>
         <th>מחיר ליחידה</th>
         <th>סה"כ לפני מע"מ </th>
@@ -64,14 +101,15 @@ return (
 
     {updatedProducts.map((product,index)=>
     <tr> 
-        <td className="image-column">
-        <img src={product.exImage} alt="" />
-        </td> 
-        <td>
-            {product.description}
+        <td className="productDetails"><img src={product.exImage} alt="" />
+        <div className="productName">{product.description}</div> 
         </td>
+
         <td>
-            <input id={index} ref={addToRef} value={product.amount} onChange={(e)=>changeAmount(e,product.id)}></input>    </td>
+            <button className="add" onClick={()=>addOne(product.id)} >+</button>
+               <input id={index} ref={addToRef} value={product.amount} onChange={(e)=>changeAmount(e,product.id)}></input>
+            <button className="remove" onClick={()=>removeOne(product.id)}>-</button>
+        </td>
         <td>
             {product.price}
         </td>
@@ -81,12 +119,9 @@ return (
         <td>
         {(product.price * product.amount *1.17).toFixed(2)}
         </td>
-    </tr>
-
-    )
-    }
-    </table>
-    </div>
+    </tr> )}  
+    </table>}
+ </div>
 <PdfDocument/>
 
 {/* <GeneratePdf/> */}
