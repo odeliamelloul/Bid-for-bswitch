@@ -11,6 +11,7 @@ const ProductPage = () => {
     itemEls.current=[]
     const [updatedProducts, setupdatedProducts] = useState([])
     const [keyWord, setKeyWord] = useState("")
+
     const addToRef=(el)=>
     {
       if(el && !itemEls.current.includes(el) )
@@ -28,57 +29,74 @@ const ProductPage = () => {
     lsProducts=JSON.parse(localStorage.getItem("allProducts"))
     setupdatedProducts(lsProducts)
 
+    localStorage.setItem("searchProduct",JSON.stringify([]))
 
     },[] )
 
-const addOne=(id)=>
+const updateDisplayProduct=()=>
 {
+    localStorage.setItem("allProducts",JSON.stringify(lsProducts))
+
+    let searchData=localStorage.getItem("searchProduct")!=="[]"?JSON.parse(localStorage.getItem("searchProduct")):lsProducts
+   
+    searchData.forEach(searchEl => {
+        lsProducts.forEach((p)=>{
+            if (p.id===searchEl.id) 
+             searchEl.amount=p.amount} 
+        )
+    });
+
+    setupdatedProducts(searchData)
+}
+
+const addOne=(id,index)=>
+{ 
     lsProducts.forEach(el =>{
         if(el.id===id)
         {
             el.amount=Number(el.amount+1)
-            itemEls.current[id].value=el.amount
+            itemEls.current[index].value=el.amount
         }
     });
-    localStorage.setItem("allProducts",JSON.stringify(lsProducts))
-    setupdatedProducts(lsProducts)
+    updateDisplayProduct()
 }
 
-const removeOne=(id)=>{
+const removeOne=(id,index)=>{
     lsProducts.forEach(el =>{
-        if(el.id===id)
+        if(el.id===id && el.amount>0)
         {
             el.amount=Number(el.amount-1)
-            itemEls.current[id].value=el.amount
+            itemEls.current[index].value=el.amount
         }
     });
-    localStorage.setItem("allProducts",JSON.stringify(lsProducts))
-    setupdatedProducts(lsProducts)
+    updateDisplayProduct()
+
 }
 
-const changeAmount=(e,id)=>
+const changeAmount=(e,id,index)=>
 {
     lsProducts.forEach(el =>{
         if(el.id===id)
         {
-            el.amount= Number(e.target.value)
-            itemEls.current[id].value=el.amount 
+         el.amount= Number(e.target.value)
+         itemEls.current[index].value=el.amount 
         }
     });
-    localStorage.setItem("allProducts",JSON.stringify(lsProducts))
-    setupdatedProducts(lsProducts)
+    updateDisplayProduct()
 }
+
 const submitHandler=(val)=>
 {
     lsProducts.forEach(el =>{
         if((el.description+" ").includes(val))
         {
             searchProduct.push(el)
-            console.log(searchProduct)
+            localStorage.setItem("searchProduct",JSON.stringify(searchProduct))
         }
     });
     setupdatedProducts(searchProduct)
 }
+
 return (
 <>
 <Header/>
@@ -106,9 +124,9 @@ return (
         </td>
 
         <td>
-            <button className="add" onClick={()=>addOne(product.id)} >+</button>
-               <input id={index} ref={addToRef} value={product.amount} onChange={(e)=>changeAmount(e,product.id)}></input>
-            <button className="remove" onClick={()=>removeOne(product.id)}>-</button>
+            <button className="add" onClick={()=>addOne(product.id,index)} >+</button>
+               <input id={index} ref={addToRef} value={product.amount} onChange={(e)=>changeAmount(e,product.id,index)}></input>
+            <button className="remove" onClick={()=>removeOne(product.id,index)}>-</button>
         </td>
         <td>
             {product.price}
